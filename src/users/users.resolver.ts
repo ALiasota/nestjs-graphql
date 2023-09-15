@@ -3,6 +3,8 @@ import { UsersService } from './users.service';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserInput } from './inputs/create-user.input';
 import { UpdateUserInput } from './inputs/update-user.input';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Resolver('User')
 export class UsersResolver {
@@ -32,6 +34,7 @@ export class UsersResolver {
     return await this.usersService.getUser(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Query(() => [UserEntity])
   async getAllUsers(): Promise<UserEntity[]> {
     return await this.usersService.getAllUsers();
